@@ -131,12 +131,9 @@ char *hash_table_retrieve(BasicHashTable *ht, char *key)
 {
   unsigned int index = hash(key, ht->capacity);
 
-  if (ht->storage[index] != NULL)
+  if (ht->storage[index] && (strcmp(ht->storage[index]->key, key) == 0))
   {
-    if (strcmp(ht->storage[index]->key, key) == 0)
-    {
-      return ht->storage[index]->value;
-    }
+    return ht->storage[index]->value;
   }
 
   return NULL;
