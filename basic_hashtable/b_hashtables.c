@@ -114,12 +114,10 @@ void hash_table_remove(BasicHashTable *ht, char *key)
   if (ht->storage[index] == NULL)
   {
     printf("Nonexistent key: %s", key);
-    exit(1);
+    return;
   }
-  else
-  {
-    destroy_pair(ht->storage[index]);
-  }
+  ht->storage[index] = NULL;
+  destroy_pair(ht->storage[index]);
 }
 
 /****
@@ -148,7 +146,10 @@ void destroy_hash_table(BasicHashTable *ht)
 {
   for (int i = 0; i < ht->capacity; i++)
   {
-    destroy_pair(ht->storage[i]);
+    if (ht->storage[i] != NULL)
+    {
+      destroy_pair(ht->storage[i]);
+    }
   }
 
   free(ht->storage);
