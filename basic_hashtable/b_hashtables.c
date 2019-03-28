@@ -111,13 +111,16 @@ void hash_table_remove(BasicHashTable *ht, char *key)
 {
   unsigned int index = hash(key, ht->capacity);
 
-  if (ht->storage[index] == NULL)
+  if (ht->storage[index] == NULL || strcmp(ht->storage[index]->key, key) != 0)
   {
-    printf("Nonexistent key: %s", key);
+    printf("Unable to remove entry with key: %s", key);
     return;
   }
-  ht->storage[index] = NULL;
-  destroy_pair(ht->storage[index]);
+  else
+  {
+    destroy_pair(ht->storage[index]);
+    ht->storage[index] = NULL;
+  }
 }
 
 /****
@@ -129,7 +132,7 @@ char *hash_table_retrieve(BasicHashTable *ht, char *key)
 {
   unsigned int index = hash(key, ht->capacity);
 
-  if (ht->storage[index] && (strcmp(ht->storage[index]->key, key) == 0))
+  if (ht->storage[index] != NULL)
   {
     return ht->storage[index]->value;
   }
